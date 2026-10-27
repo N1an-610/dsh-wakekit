@@ -1,0 +1,481 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "wakekit.config",
+  "description": "wakekit 的唯一配置。所有路径相对本文件所在目录；字符串里的 {data_dir} 会展开成绝对路径。",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "version",
+    "paths",
+    "limits",
+    "retrieval",
+    "features",
+    "dream",
+    "adapters",
+    "labels",
+    "wake",
+    "sleep",
+    "card"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "paths": {
+      "type": "object",
+      "required": [
+        "data_dir",
+        "memories_file",
+        "archive_dir",
+        "wake_dir",
+        "wake_file"
+      ],
+      "properties": {
+        "data_dir": {
+          "type": "string",
+          "description": "运行期数据的根目录（记忆库、归档、醒来包、日志、备份都在它下面）"
+        },
+        "memories_file": {
+          "type": "string",
+          "description": "记忆库 JSONL 路径，默认 {data_dir}/memories.jsonl"
+        },
+        "archive_dir": {
+          "type": "string",
+          "description": "原文归档目录，默认 {data_dir}/archive"
+        },
+        "wake_dir": {
+          "type": "string",
+          "description": "历史醒来包目录，默认 {data_dir}/wake"
+        },
+        "wake_file": {
+          "type": "string",
+          "description": "当前醒来包路径，默认 {data_dir}/wake.md"
+        },
+        "log_file": {
+          "type": "string",
+          "description": "可观测日志；只记时间/条数/耗时，不记内容"
+        },
+        "card_path": {
+          "type": "string",
+          "description": "可选：要注入的角色卡路径。留空 = 不注入，只产出 wake_file"
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "required": [
+        "summary_max_chars",
+        "min_tags",
+        "entry_max_chars",
+        "wake_max_chars",
+        "ember_max",
+        "ember_max_chars",
+        "quote_max",
+        "focus_max_chars",
+        "summary_scan"
+      ],
+      "properties": {
+        "summary_max_chars": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 200,
+          "description": "摘要上限，默认 40"
+        },
+        "min_tags": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "写入至少几个标签，默认 1"
+        },
+        "entry_max_chars": {
+          "type": "integer",
+          "minimum": 100,
+          "description": "单条正文上限，默认 2000"
+        },
+        "conversation_guard_chars": {
+          "type": "integer",
+          "minimum": 100,
+          "description": "超过这个长度且多行「谁：」开头，判定为整段对话并拒收"
+        },
+        "memory_max_entries": {
+          "type": "integer",
+          "minimum": 10,
+          "description": "条数软上限，超了只告警不自动删"
+        },
+        "backup_keep": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "保留多少份 .bak"
+        },
+        "wake_max_chars": {
+          "type": "integer",
+          "minimum": 300,
+          "description": "醒来包正文上限，默认 1000"
+        },
+        "ember_max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8,
+          "description": "火种最多几条，默认 8（硬上限 8）"
+        },
+        "ember_max_chars": {
+          "type": "integer",
+          "minimum": 20,
+          "description": "每条火种最多多少字，默认 120"
+        },
+        "quote_max": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "关系原话最多几条，默认 4"
+        },
+        "wake_index_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "醒来包目录显示几份，超了写「更早的 N 份省略」，默认 40"
+        },
+        "summary_inject_max_chars": {
+          "type": "integer",
+          "minimum": 100,
+          "description": "会话开头摘要注入的字数上限，默认 1000"
+        },
+        "focus_max_chars": {
+          "type": "integer",
+          "minimum": 20,
+          "description": "醒来包「我现在在做什么」最多多少字，默认 120"
+        },
+        "summary_scan": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "生成「上次到哪」时往前扫多少条记忆，默认 20"
+        }
+      }
+    },
+    "retrieval": {
+      "type": "object",
+      "required": [
+        "top_k",
+        "retriever",
+        "sem_weight",
+        "sem_model_dir",
+        "sem_index",
+        "sem_topk",
+        "tier_weights",
+        "time_decay_half_life_days",
+        "sem_auto_refresh",
+        "sem_auto_max"
+      ],
+      "properties": {
+        "top_k": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "默认返回条数，默认 8"
+        },
+        "retriever": {
+          "enum": [
+            "bm25",
+            "semantic",
+            "hybrid"
+          ],
+          "description": "bm25=只按关键词（默认，零依赖）；semantic=只按意思；hybrid=两边加权"
+        },
+        "tier_weights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0
+          },
+          "description": "按 tier 的分数倍率，火种默认 3"
+        },
+        "time_decay_half_life_days": {
+          "type": "number",
+          "minimum": 0,
+          "description": "时间衰减半衰期（天）；0 = 不衰减，默认 30"
+        },
+        "sem_weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "hybrid 时语义占多少，0~1，默认 0.5"
+        },
+        "sem_model_dir": {
+          "type": "string",
+          "description": "bge-small-zh-v1.5 模型目录，默认 ./models/bge-small-zh-v1.5"
+        },
+        "sem_index": {
+          "type": "string",
+          "description": "向量文件，默认 ./data/sem/sem_vectors.npy"
+        },
+        "sem_topk": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "语义候选数，默认 300"
+        },
+        "sem_auto_refresh": {
+          "type": "boolean",
+          "description": "检索时发现向量落后就现场补小差量，默认开"
+        },
+        "sem_auto_max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "落后不超过这个数才现场补；超过就提示跑 sem_build.py，默认 20"
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "required": [
+        "archive",
+        "write_gate",
+        "dedupe",
+        "health_check",
+        "privacy",
+        "observability",
+        "summary_inject",
+        "dream_scheduler",
+        "group_memory"
+      ],
+      "properties": {
+        "archive": {
+          "type": "boolean",
+          "description": "原文归档（把每句话存下来）。默认关"
+        },
+        "write_gate": {
+          "type": "boolean",
+          "description": "写入门槛：必须有摘要+标签、拒收整段对话。默认开"
+        },
+        "dedupe": {
+          "type": "boolean",
+          "description": "写入前查当天相似条目并提示。默认开"
+        },
+        "health_check": {
+          "type": "boolean",
+          "description": "允许定时跑体检。默认关"
+        },
+        "privacy": {
+          "type": "boolean",
+          "description": "private 条目不进醒来包/摘要。默认开"
+        },
+        "observability": {
+          "type": "boolean",
+          "description": "每次读写记一行日志（只记时间/条数/耗时）。默认关"
+        },
+        "summary_inject": {
+          "type": "boolean",
+          "description": "会话开头注入「上次到哪」。默认关"
+        },
+        "dream_scheduler": {
+          "type": "boolean",
+          "description": "夜间随机叫醒读旧醒来包。默认关"
+        },
+        "group_memory": {
+          "type": "boolean",
+          "description": "要不要把群聊里的内容也记进记忆库（默认关）"
+        }
+      }
+    },
+    "dream": {
+      "type": "object",
+      "properties": {
+        "hours_start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 23,
+          "description": "允许叫醒的起始小时（含），默认 1"
+        },
+        "hours_end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 24,
+          "description": "允许叫醒的结束小时（不含），默认 7"
+        },
+        "interval_min_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "两次叫醒的最小间隔（分钟），默认 30"
+        },
+        "interval_max_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "两次叫醒的最大间隔（分钟），默认 60"
+        },
+        "must_read_unread": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "每次唤醒必须读几份未读的，默认 1"
+        },
+        "progress_file": {
+          "type": "string",
+          "description": "读进度文件，默认 {wake_dir}/read-progress.json"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "当前会话标识；换了就等于开了新会话（会先快照旧包再重置进度）。留空则用 --session 或 default"
+        }
+      }
+    },
+    "adapters": {
+      "type": "object",
+      "description": "把外部系统抽象出来；默认全空，绝不主动连外部系统",
+      "properties": {
+        "message_source": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "enum": [
+                "none",
+                "jsonl",
+                "json",
+                "command"
+              ],
+              "description": "none=不归档（默认）；jsonl=按偏移增量读一个 JSONL；json=读 JSON 里某个数组（每次全量，靠哈希去重）；command=跑命令读它的 stdout"
+            },
+            "path": {
+              "type": "string",
+              "description": "jsonl/json 模式的数据文件路径"
+            },
+            "pointer": {
+              "type": "string",
+              "description": "json 模式下数组所在的点路径，例如 recentMessages"
+            },
+            "fields": {
+              "type": "object",
+              "description": "json 模式下字段映射：ts/text/who/key",
+              "properties": {
+                "ts": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "who": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                }
+              }
+            },
+            "command": {
+              "type": "string",
+              "description": "command 模式下要执行的命令（输出 JSONL）"
+            }
+          }
+        },
+        "wake_hook": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "enum": [
+                "none",
+                "command",
+                "http"
+              ],
+              "description": "叫醒动作：none=只打印（默认）；command=执行命令；http=POST 一个 URL"
+            },
+            "command": {
+              "type": "string",
+              "description": "command 模式下的命令"
+            },
+            "url": {
+              "type": "string",
+              "description": "http 模式下的地址"
+            },
+            "headers": {
+              "type": "object",
+              "description": "http 模式下的请求头"
+            }
+          }
+        }
+      }
+    },
+    "labels": {
+      "type": "object",
+      "description": "模板里 {{对方}} 的替换值。默认「对方」，在任何场景都指当前对话的人；群里人多时可以改成「管理员」更保险，也可以填使用者希望被叫的名字。",
+      "properties": {
+        "partner": {
+          "type": "string",
+          "minLength": 1,
+          "description": "指代对话对象的称呼，默认「对方」"
+        }
+      },
+      "required": [
+        "partner"
+      ]
+    },
+    "wake": {
+      "type": "object",
+      "description": "醒来包里火种那一段的容量参数",
+      "required": [
+        "ember_max",
+        "ember_max_chars",
+        "reset_cycle_days",
+        "daily_new_items"
+      ],
+      "properties": {
+        "ember_max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30,
+          "description": "实际放几条火种，默认 8"
+        },
+        "ember_max_chars": {
+          "type": "integer",
+          "minimum": 20,
+          "description": "每条火种最多多少字，默认 120"
+        },
+        "reset_cycle_days": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "大概多久重置一次（只用于算建议值）"
+        },
+        "daily_new_items": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "每天大概新增多少条值得记的（只用于算建议值）"
+        }
+      }
+    },
+    "sleep": {
+      "type": "object",
+      "description": "睡眠设定的三层开关",
+      "required": [
+        "enabled",
+        "dream",
+        "self_wake"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "总开关。关掉 = 不装潜意识模板、不注册任何定时唤醒；醒来包照常生成"
+        },
+        "dream": {
+          "type": "boolean",
+          "description": "夜里读旧醒来包（做梦）"
+        },
+        "self_wake": {
+          "type": "boolean",
+          "description": "允许它自己醒来、主动找人（只影响潜意识模板里那一段）"
+        }
+      }
+    },
+    "card": {
+      "type": "object",
+      "description": "角色卡相关",
+      "required": [
+        "subconscious"
+      ],
+      "properties": {
+        "subconscious": {
+          "type": "boolean",
+          "description": "角色卡里有没有装潜意识那段；--refresh 按它决定装不装"
+        }
+      }
+    }
+  }
+}

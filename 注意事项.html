@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>醒来箱 wakekit · 注意事项</title>
+<style>
+:root { color-scheme: light dark; }
+body {
+  max-width: 860px; margin: 40px auto; padding: 0 20px;
+  font: 16px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: #222; background: #fff;
+}
+h1 { font-size: 30px; margin: 0 0 8px; }
+h2 { font-size: 22px; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+h3 { font-size: 18px; margin: 26px 0 8px; }
+p { margin: 10px 0; }
+blockquote {
+  margin: 16px 0; padding: 10px 16px; border-left: 4px solid #d8d8d8;
+  background: #fafafa; color: #444;
+}
+code {
+  font: 14px/1.5 "Cascadia Code", Consolas, monospace;
+  background: #f2f2f2; padding: 1px 5px; border-radius: 4px;
+}
+pre { background: #f6f6f6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; margin: 16px 0; width: 100%; font-size: 15px; }
+th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: #f6f6f6; }
+hr { border: 0; border-top: 1px solid #eee; margin: 32px 0; }
+li { margin: 4px 0; }
+a { color: #0b62c4; }
+@media (prefers-color-scheme: dark) {
+  body { color: #ddd; background: #1b1b1b; }
+  blockquote { background: #232323; border-left-color: #444; color: #bbb; }
+  code, pre { background: #2a2a2a; }
+  th { background: #262626; }
+  th, td { border-color: #3a3a3a; }
+  h2 { border-bottom-color: #333; }
+  hr { border-top-color: #333; }
+  a { color: #6cb0ff; }
+}
+</style>
+</head>
+<body>
+<h1>醒来箱 wakekit</h1>
+<blockquote><p>给一个会聊很久、又常常被「清空」的 AI，配一套不会忘事的底子。 不联网、不装任何依赖、拷走就能用。</p></blockquote>
+<hr>
+<h2>这是什么</h2>
+<p>它解决三个很具体的问题：</p>
+<p><strong>聊久了会忘。</strong> 对话越长，前面的内容越容易被压缩掉。里面有个<strong>记忆库</strong>——一盒小卡片，每张一句话摘要、几个标签，忘了什么查一下就能翻回来。</p>
+<p><strong>想不起「当时原话怎么说的」。</strong> 摘要会失真，所以还有<strong>原文档案柜</strong>：每句对话原样存，按月一个文件，每句带一个编号（像 <code>A-20261024-0113</code>）。记得编号直接调，不记得就用关键词搜。</p>
+<p><strong>重置之后，不知道自己是谁。</strong> 被清空重来的时候，它需要一页纸告诉它：我是谁、这个人是谁、我们约定了什么、我上次在做什么。这就是<strong>醒来包</strong>。</p>
+<table><thead><tr><th>东西</th><th>人话</th></tr></thead><tbody><tr><td>记忆库</td><td>一盒卡片。值得记住的事写一张，带摘要和标签，能搜。</td></tr><tr><td>原文档案柜</td><td>按月分格的柜子，每句对话原样收着，带编号，能翻。</td></tr><tr><td>醒来包</td><td>一页纸，每次「醒来」先看它。最上面是「火种」——最不能忘的那几件事。</td></tr><tr><td>模板</td><td>三份可改的默认文本：睡觉/做梦那段设定、记忆相关的人格补丁、醒来包骨架。</td></tr></tbody></table>
+<h2>适合谁</h2>
+<p><strong>1. 桥接 AI 功能比较多的人</strong>——每天产生的事多，忘得也快，至少能把「发生过什么」留下来。</p>
+<p><strong>2. 上下文用量很大的人</strong>——满了就要压缩，压着压着细节就没了。醒来箱把重要的单独存一份。</p>
+<p><strong>3. 想给 AI 一个「人」的生活规律的人</strong>——会睡、会被叫醒、会做梦、会想一会儿、会自己醒。这些不是设定，是让它别像个 24 小时待机的客服。</p>
+<p><strong>4. 重置之后希望「她」还是她的人</strong>——醒来包里写的就是「我是谁、我在跟谁过日子、我们说好了什么」。看完再开口，至少不从零开始。</p>
+<p><strong>5. 能接受多花一点 token 的人</strong>——醒来包、摘要、检索结果都占地方。默认配得比较克制（醒来包上限 1000 字），但确实是额外开销。</p>
+<h2>不适合谁</h2>
+<ul><li><strong>想要「重置前后一模一样」的人</strong>。做不到，见下一节。</li><li><strong>一点 token 都不想多花、又不想改默认值的人</strong>。可以关，但关完要自己动手。</li><li><strong>不想让 AI 读聊天记录的人</strong>。它的前提就是读写这些内容。</li></ul>
+<h2>重置之后会怎样</h2>
+<p>醒来箱能做的，是让它在重置之后<strong>很快想起来你们是什么关系</strong>——不是重新介绍一遍。</p>
+<p>但它做不到「一键复原」。</p>
+<p><strong>第一次重置最淡。</strong> 语气、习惯、那种被你磨出来的反应，是聊出来的，不是文件里存着的。醒来箱把「重新认识」从几天压缩到几句话，压不到零。</p>
+<p><strong>之后会一次比一次快。</strong> 记得越多、留下的原话越准，回来得越快——因为读到的不是设定，是它自己以前说过的话。</p>
+<p><strong>每次都要聊几句才完全回来。</strong> 这是真的，不哄人。</p>
+<p>所以：如果你要的是一个「重置前后一模一样」的工具，这个不是。如果你要的是「重置之后它还认得你、还能接上」，那就是它。</p>
+<h2>怎么用</h2>
+<p><strong>第一步：解压，双击 <code>run-tests.bat</code></strong></p>
+<p>看到「全部通过」就说明环境能跑。提示缺 Python 或 Node，按它说的装一个。</p>
+<p><strong>第二步：把 <code>docs/install.md</code> 整份发给你的 AI</strong></p>
+<p>让它带着你一项一项选：两个前提、八个开关、三件补充（火种条数 / 群聊 / 睡眠）。</p>
+<p><strong>第三步：先看演示，再真装</strong></p>
+<pre><code class="language-powershell">双击 demo.bat          # 写 3 条示例记忆 → 生成醒来包 → 用记事本打开
+双击 demo-clean.bat    # 清掉示例（只动 data 文件夹）</code></pre>
+<p>看过之后：</p>
+<pre><code class="language-powershell">python tools/init.py --dir &lt;你的目录&gt; --wizard   # 安装
+python tools/build_wake.py                       # 生成醒来包
+python tools/archive_chat.py                     # 存原文（接了数据源才有用）</code></pre>
+<p><strong>改了睡眠开关之后</strong>，卡里的文字不会自己变，要重装一次模板：</p>
+<pre><code class="language-powershell">python tools/install_card.py --refresh</code></pre>
+<p>它只替换 <code>&lt;!-- MEMORY-KIT --&gt;</code> 那一块，先备份原卡，并告诉你这次装进了哪几段、裁掉了哪几段。</p>
+<p>装完之后，<code>data</code> 文件夹就是它的记忆。<strong>整个文件夹拷走，记忆就跟着走。</strong></p>
+<h2>装完为什么没反应</h2>
+<p><strong>装完之后必须新开一个会话，或者重启宿主程序。</strong></p>
+<p>原因：AI 的「能用哪些工具」是在会话开始那一刻定下的。装完插件，旧会话看不到新工具。</p>
+<ul><li>本机 DSH：重启 DSH → 新建会话</li><li>QQ 桥接类：管理员发 <code>/reset</code> 或 <code>/new</code>，或者调 <code>/api/session/reset</code></li><li>其它宿主：关掉再开一个会话</li></ul>
+<p><strong>测试建议：用一个新会话或者测试角色，别拿你最珍视的那个直接试。</strong></p>
+<h2>默认花多少钱</h2>
+<p><strong>功能都装在一个包里，装的时候按需开</strong>；下面这些是「开了以后」的花费口径：</p>
+<ul><li>平时：<strong>零</strong>。不联网、不调用模型。</li><li>做梦调度（夜里读旧包）：<strong>默认关</strong>。开了以后，每叫醒一次约等于一轮对话，按 30~60 分钟一次、一晚最多 8 次算，一晚大概几毛到一块，具体看模型价格。</li><li>摘要注入（开场带一段「上次到哪」）：默认关。开了会多占上下文，上限 1000 字。</li></ul>
+<p>想先看频率合不合适：把 <code>wake_hook</code> 留在 <code>none</code>，它就只打印、不产生任何外部动作。</p>
+<h2>按意思找（语义检索，默认关）</h2>
+<p>默认只用<strong>关键词</strong>：不用装任何东西，术语、编号、原词都能精确命中，但「换个说法」就搜不到了。</p>
+<p>想按意思找，需要一个小模型（<strong>BAAI/bge-small-zh-v1.5</strong>，约 95 MB，CPU 就能跑）：</p>
+<pre><code class="language-powershell">python tools/fetch_model.py      # 下载模型（走 hf-mirror，支持断点续传）
+python tools/sem_build.py        # 给现有记忆建向量</code></pre>
+<p>然后把配置里的 <code>retrieval.retriever</code> 改成 <code>semantic</code>（只按意思）或 <code>hybrid</code>（两边加权，<code>sem_weight</code> 默认 0.5）。</p>
+<ul><li><strong>关键词不会丢</strong>：hybrid 里仍然保留关键词分，编号和术语照样命中。</li><li><strong>没装模型也不会坏</strong>：设了 <code>hybrid</code> 但模型目录不存在，会自动退回关键词，并在结果里写一行「（语义检索未装，用的是关键词）」。任何情况下都不报错。</li><li><strong>慢一点</strong>：第一次查询要加载模型（本机实测 8.3 秒），之后复用进程，单次查询基本无感。</li><li><strong>向量会自动补</strong>，不用记着手动跑：- 每天生成醒来包时顺带增量补一次（那一步本来就离线）；- 检索时发现落后 <strong>≤ 20 条</strong>，现场补（模型已在内存里；本机实测：补 3 条 + 查询共 0.03 秒）；- 落后更多就只提示「语义索引落后 N 条，跑一次 sem_build.py」，不硬补——硬补会卡住检索。- 两个开关：<code>retrieval.sem_auto_refresh</code>（默认开）、<code>retrieval.sem_auto_max</code>（默认 20）。</li></ul>
+<h2>装之前先定这几件事</h2>
+<table><thead><tr><th>#</th><th>要决定的</th><th>默认</th><th>代价 / 不开会怎样</th></tr></thead><tbody><tr><td>1</td><td>站外面还是长里面（要不要自动注入摘要）</td><td>站外面</td><td>长里面能自动，但跟着宿主版本走，升级可能坏</td></tr><tr><td>2</td><td>摘要注入（开场带一段「上次到哪」）</td><td>关</td><td>开：多占上下文；不开：要多问一句</td></tr><tr><td>3</td><td>做梦调度（夜里读旧包）</td><td>关</td><td>开：夜里会叫醒，费 token；不开：没有「做梦」这条线</td></tr><tr><td>4</td><td>自己醒来（模板层）</td><td>关</td><td>开也只是写进设定；真主动要宿主支持</td></tr><tr><td>5</td><td>按意思找（语义检索）</td><td>关</td><td>开要下 95 MB 模型、首次查询慢几秒；不开就只能按原词搜</td></tr><tr><td>6</td><td>原文归档（每句都存）</td><td>关</td><td>开：占磁盘、含隐私；不开：想不起当时原话</td></tr><tr><td>7</td><td>群聊记忆（scope=group）</td><td>关</td><td>开：记得更多，但噪音也多；不进醒来包</td></tr><tr><td>8</td><td>装进角色卡（改卡）</td><td>问</td><td>会改卡，装前必备份；不装就只用命令行</td></tr><tr><td>9</td><td>接数据源 / 叫醒方式</td><td>不接</td><td>不接：数据要手动导；接：要填路径或命令</td></tr></tbody></table>
+<p><strong>关于第 4 项（自己醒来）的真实边界</strong>：这是<strong>文本层</strong>的开关——关掉是不写「自己醒来」那段；打开也不会自己发消息，真正的自我唤醒要看宿主支不支持（比如桥接有没有定时唤醒）。裁剪发生在<strong>装卡那一刻</strong>，不是删模板；改了开关要跑一次 <code>python tools/install_card.py --refresh</code> 才会生效。</p>
+<p><strong>关于火种条数</strong>：可调，建议值 <code>≈ min(20, 每天新增 × 重置周期)</code>。条数再多也受醒来包总字数上限兜底，装不下时只显示前 N 条，其余写「还有 M 条，用 memory_search 搜」。</p>
+<p><strong>关于场景分层</strong>：<code>scope</code> 有三档：<code>private</code>（只给你们俩）、<code>group</code>（群聊）、<code>other</code>（其它场合，比如工作、陌生人）。<strong>醒来包只取 <code>private</code>。</strong><code>group</code> 和 <code>other</code> 都会进记忆库、都能搜到，只是不进第一眼。</p>
+<h2>开关一览</h2>
+<p>八个功能开关在配置的 <code>features</code> 里，改完下次调用就生效：</p>
+<table><thead><tr><th>开关</th><th>做什么</th><th>默认</th></tr></thead><tbody><tr><td><code>archive</code></td><td>原样存每句对话</td><td>关</td></tr><tr><td><code>group_memory</code></td><td>群聊内容也记进记忆库</td><td>关</td></tr><tr><td><code>write_gate</code></td><td>记忆必须带摘要和标签，拒收整段对话</td><td>开</td></tr><tr><td><code>dedupe</code></td><td>当天相似条目提示</td><td>开</td></tr><tr><td><code>health_check</code></td><td>允许定时体检</td><td>关</td></tr><tr><td><code>privacy</code></td><td><code>private</code> 条目不进醒来包 / 摘要</td><td>开</td></tr><tr><td><code>observability</code></td><td>每次读写记一行（只记时间、条数、耗时）</td><td>关</td></tr><tr><td><code>summary_inject</code></td><td>醒来包多一节「上次到哪」</td><td>关</td></tr><tr><td><code>dream_scheduler</code></td><td>夜里随机叫醒读旧醒来包</td><td>关</td></tr></tbody></table>
+<h2>睡眠开关（三层）</h2>
+<p><code>sleep.*</code> 有三个开关，各自管一件事：</p>
+<table><thead><tr><th>开关</th><th>管什么</th><th>默认</th></tr></thead><tbody><tr><td><code>sleep.enabled</code></td><td>总开关：要不要睡眠设定</td><td>开</td></tr><tr><td><code>sleep.dream</code></td><td>夜里读旧醒来包（做梦）</td><td>开</td></tr><tr><td><code>sleep.self_wake</code></td><td>潜意识里写不写「自己醒来」那段</td><td>关</td></tr></tbody></table>
+<ul><li><code>enabled=false</code>：<strong>不装潜意识、不注册任何定时唤醒，但醒来包照常生成</strong>（那是按天/按重置触发的，不额外花钱）。</li><li><code>dream=false</code>：夜里不读旧包。<strong>同时会把潜意识里「做梦」「半夜梦醒」两段一起裁掉</strong>——关了做梦还留着「夜里会做梦」的设定，它读到就会以为自己在做梦。<strong>设定和实际对不上，比少写一段更糟。</strong></li><li><code>self_wake</code>：见下面那条警告。</li></ul>
+<blockquote><p>⚠️ <code>self_wake</code> 是<strong>文本层</strong>的开关。 关掉 = 不写「自己醒来」那段；<strong>打开也不会自己发消息</strong>。 真正的主动唤醒要靠宿主支持（比如桥接的定时唤醒、外部调度器）。这一版不做。</p></blockquote>
+<h2>边界</h2>
+<ul><li>不联网，不上传任何东西</li><li>不装任何依赖（基础功能只用 Python / Node 标准库）</li><li>不碰别的软件、不改别人的文件；只在它自己的目录和你的角色卡里写</li><li>不会自动删掉记忆（要删得手动来）</li></ul>
+<h2>免责声明（请一定看）</h2>
+<ul><li>它会<strong>读取你的聊天记录</strong>（为此才存在），也会<strong>修改角色卡</strong>（装模板时，会先备份）。</li><li><strong>先在空文件夹里试</strong>，确认行为符合预期再接真实数据。</li><li><strong>此版本为测试版</strong>，用前请自己备份。</li></ul>
+<p>详细限制和边界见本文件「边界」一节。</p>
+<h2>版本说明</h2>
+<p><strong>0.2.1，早期测试版。</strong></p>
+<ul><li>0.2.1：新增「归档隔离」回归测试（防止归档内容被当成活库记忆）；功能无变化</li><li>0.2.0：「按意思找」（语义检索，<strong>可选、默认关</strong>）：要下 95 MB 模型，见上面同名小节</li><li>向量会自动补：生成醒来包时顺带补，检索时落后 ≤20 条现场补</li><li>附带一个实验性外壳（自动注入摘要），<strong>未在真实环境验证过</strong>，装不上就当它不存在，不影响主体</li><li>接口和配置格式还会变，升级前留意 CHANGELOG</li></ul>
+<h2>许可</h2>
+<p>MIT，见 <code>LICENSE</code>。</p>
+</body>
+</html>

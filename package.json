@@ -1,0 +1,30 @@
+{
+  "name": "dsh-wakekit",
+  "version": "0.2.1",
+  "private": true,
+  "type": "module",
+  "description": "记忆库 + 检索 + 醒来包 + 潜意识模板。零依赖，MCP stdio 服务手写实现。",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "selftest": "node tests/mcp_selftest.js",
+    "serve": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/N1an-610/dsh-wakekit.git"
+  },
+  "homepage": "https://github.com/N1an-610/dsh-wakekit#readme",
+  "bugs": {
+    "url": "https://github.com/N1an-610/dsh-wakekit/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai-memory",
+    "mcp",
+    "memory",
+    "wake-prompt",
+    "semantic-search"
+  ]
+}

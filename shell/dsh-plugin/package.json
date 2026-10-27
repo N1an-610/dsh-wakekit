@@ -1,0 +1,12 @@
+{
+  "name": "wakekit-shell",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "wakekit 的可选外壳：自动建索引 + 尝试自动注入摘要。坏了不影响主体。",
+  "main": "index.js",
+  "wakekit": {
+    "kind": "dsh-shell",
+    "dshSupport": ">=0.2.0 <0.3.0"
+  }
+}

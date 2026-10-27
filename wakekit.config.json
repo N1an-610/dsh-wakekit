@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "paths": {
+    "data_dir": "./data",
+    "memories_file": "{data_dir}/memories.jsonl",
+    "archive_dir": "{data_dir}/archive",
+    "wake_dir": "{data_dir}/wake",
+    "wake_file": "{data_dir}/wake.md",
+    "log_file": "{data_dir}/logs/wakekit.log",
+    "card_path": ""
+  },
+  "limits": {
+    "summary_max_chars": 40,
+    "min_tags": 1,
+    "entry_max_chars": 2000,
+    "conversation_guard_chars": 300,
+    "memory_max_entries": 5000,
+    "backup_keep": 30,
+    "wake_max_chars": 1000,
+    "ember_max": 8,
+    "ember_max_chars": 120,
+    "quote_max": 4,
+    "wake_index_limit": 40,
+    "summary_inject_max_chars": 1000,
+    "focus_max_chars": 120,
+    "summary_scan": 20
+  },
+  "card": {
+    "subconscious": false
+  },
+  "wake": {
+    "ember_max": 8,
+    "ember_max_chars": 120,
+    "reset_cycle_days": 3,
+    "daily_new_items": 5
+  },
+  "sleep": {
+    "enabled": true,
+    "dream": true,
+    "self_wake": false
+  },
+  "retrieval": {
+    "top_k": 8,
+    "retriever": "bm25",
+    "tier_weights": {
+      "火种": 3.0,
+      "重要": 2.0,
+      "原话": 1.8,
+      "约定": 1.8,
+      "日记": 1.0,
+      "普通": 1.0
+    },
+    "time_decay_half_life_days": 30,
+    "sem_weight": 0.5,
+    "sem_model_dir": "./models/bge-small-zh-v1.5",
+    "sem_index": "./data/sem/sem_vectors.npy",
+    "sem_topk": 300,
+    "sem_auto_refresh": true,
+    "sem_auto_max": 20
+  },
+  "features": {
+    "archive": false,
+    "write_gate": true,
+    "dedupe": true,
+    "health_check": false,
+    "privacy": true,
+    "observability": false,
+    "summary_inject": false,
+    "dream_scheduler": false,
+    "group_memory": false
+  },
+  "dream": {
+    "hours_start": 1,
+    "hours_end": 7,
+    "interval_min_minutes": 30,
+    "interval_max_minutes": 60,
+    "must_read_unread": 1,
+    "progress_file": "{wake_dir}/read-progress.json",
+    "session_id": ""
+  },
+  "adapters": {
+    "message_source": {
+      "type": "none"
+    },
+    "wake_hook": {
+      "type": "none"
+    }
+  },
+  "labels": {
+    "partner": "对方"
+  }
+}
